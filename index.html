@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nEbula</title>
+    <style>
+        body {
+            background-color: #0b0f19;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            padding: 50px 20px;
+            margin: 0;
+        }
+        h1 {
+            font-size: 3rem;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #8a99ad;
+            font-size: 1.2rem;
+            margin-bottom: 40px;
+        }
+        .nav-menu {
+            margin-bottom: 50px;
+            font-size: 1.1rem;
+        }
+        .nav-menu a {
+            color: #4f46e5;
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: bold;
+            transition: color 0.3s;
+        }
+        .nav-menu a:hover {
+            color: #818cf8;
+        }
+        .search-container {
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 12px;
+            max-width: 500px;
+            margin: 0 auto 40px auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+        h2 {
+            margin-top: 0;
+            font-size: 1.8rem;
+            color: #f8fafc;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 12px 15px;
+            border: 2px solid #334155;
+            border-radius: 6px;
+            background-color: #0f172a;
+            color: #ffffff;
+            font-size: 1rem;
+            margin-bottom: 15px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        input[type="text"]:focus {
+            border-color: #6366f1;
+        }
+        button {
+            padding: 12px 25px;
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.1s;
+        }
+        button:hover {
+            background-color: #4338ca;
+        }
+        button:active {
+            transform: scale(0.98);
+        }
+        .section-box {
+            background: #111827;
+            border: 1px solid #1f2937;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 500px;
+            margin: 20px auto;
+            color: #9ca3af;
+        }
+        .section-box a {
+            color: #38bdf8;
+            text-decoration: none;
+        }
+        .section-box a:hover {
+            text-decoration: underline;
+        }
+        footer {
+            margin-top: 60px;
+            color: #4b5563;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>nEbula ✦</h1>
+    <div class="subtitle">Home ◉ Browse ▶ Watch ▦ Games</div>
+
+    <div class="nav-menu">
+        <a href="#">Home</a>
+        <a href="#browse">Browse</a>
+        <a href="#watch">Watch</a>
+        <a href="#games">Games</a>
+    </div>
+
+    <div class="search-container" id="browse">
+        <h2>Browse</h2>
+        <input type="text" id="proxy-input" placeholder="Type a URL or search query...">
+        <br>
+        <button onclick="launchProxy()">Search</button>
+    </div>
+
+    <div class="section-box" id="watch">
+        <h3>▶ Watch</h3>
+        <p>Streaming and media sections go here.</p>
+    </div>
+
+    <div class="section-box" id="games">
+        <h3>UGS Files</h3>
+        <p>Files from Ultimate Game Stash Google Doc</p>
+        <p>Discord Server: <a href="https://discord.gg/rmVsAqkpkA" target="_blank">discord.gg/rmVsAqkpkA</a></p>
+    </div>
+
+    <footer>
+        © 2025 <strong>nEbula</strong>
+    </footer>
+
+    <script>
+    function launchProxy() {
+        // IMPORTANT: Replace the placeholder string below with your exact Vercel proxy URL.
+        // Make sure it ends with /search/
+        const proxyBase = "https://your-app.vercel.app/search/"; 
+        
+        let input = document.getElementById("proxy-input").value.trim();
+        
+        if (!input) return; // Do nothing if the field is empty
+
+        // Turn plain text queries into a structured Google search automatically
+        if (!input.includes(".") || input.includes(" ")) {
+            input = "https://www.google.com/search?q=" + encodeURIComponent(input);
+        } else if (!/^https?:\/\//i.test(input)) {
+            // Automatically prepend https:// if it looks like a web domain lacking a protocol
+            input = "https://" + input;
+        }
+
+        // Base64 encoding required by the default Corrosion serverless implementation
+        const encodedUrl = btoa(input);
+
+        // Open the proxied web stream inside a new tab window
+        window.open(proxyBase + encodedUrl, '_blank');
+    }
+
+    // Bind the 'Enter' key to trigger the launch automatically
+    document.getElementById("proxy-input").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            launchProxy();
+        }
+    });
+    </script>
+
+</body>
+</html>
